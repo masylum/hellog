@@ -4,6 +4,8 @@ Hellog is a centralized log server that supports different protocols.
 
 Use it to store, grep and stream the contents of your logs.
 
+**Important**: This module is under construction!
+
 ## Installation
 
 You must have node and npm installed.
@@ -20,11 +22,13 @@ To start hellog just run
 hellog [options] log-path
 ```
 
-### Core API
+## Core API
 
 Hellog contains a core API that is used by the protocol implementations.
 
-  - `truncate(options, callback)`: Truncates the contents of the log
+### truncate(options, callback)
+
+Truncates the contents of the log
 
     Options:
       - password: A password that will be used to authorize the current user
@@ -32,7 +36,9 @@ Hellog contains a core API that is used by the protocol implementations.
     Callbacks:
       - error {Error}: Any error happened while truncating the logs content
 
-  - `append(body, options, callback)`: Appends a message to the log
+### append(body, options, callback)
+
+Appends a message to the log
 
     Options:
       - password: A password that will be used to authorize the current user
@@ -40,7 +46,9 @@ Hellog contains a core API that is used by the protocol implementations.
     Callbacks:
       - error {Error}: Any error happened on the stream creation
 
-  - `stream(options, callback)`: Streams the contents of the log
+### stream(options, callback)
+
+Streams the contents of the log
 
     Options:
       - tail: Starts from the bottom
@@ -52,16 +60,16 @@ Hellog contains a core API that is used by the protocol implementations.
       - error {Error}: Any error happened on the stream creation
       - stream {ReadStream}: The logs readable stream
 
+# Protocols
+
 Hellog currently supports HTTP, TCP and Websockets protocols:
 
-### HTTP
+## HTTP
 
 To enable HTTP your just need to pass the option `--http-port` and it will starting listening HTTP messages on that port.
 You can secure your HTTP communications by using the option `--http-password`
 
-#### HTTP API
-
-  - `POST /`
+### POST /
 
     Appends a log message.
 
@@ -74,7 +82,7 @@ You can secure your HTTP communications by using the option `--http-password`
       - `400` The log was either empty or too big (TODO: maximum size?).
       - `500` There was some problem with hellog. You should report those.
 
-  - `GET /?[grep=]`
+### GET /?[grep=]
 
     Streams the contents of the log.
 
@@ -83,7 +91,7 @@ You can secure your HTTP communications by using the option `--http-password`
       - `401` A password is needed and it was not provided or incorrect.
       - `500` There was some problem with hellog. You should report those.
 
-  - `GET /tail?[count=][&grep=]`
+### GET /tail?[count=][&grep=]
 
     Streams the contents of the log starting from the bottom.
 
@@ -92,7 +100,7 @@ You can secure your HTTP communications by using the option `--http-password`
       - `401` A password is needed and it was not provided or incorrect.
       - `500` There was some problem with hellog. You should report those.
 
-  - `PUT /`
+### PUT /
 
     Truncates the log file contents.
 
@@ -101,14 +109,10 @@ You can secure your HTTP communications by using the option `--http-password`
       - `401` A password is needed and it was not provided or incorrect.
       - `500` There was some problem with hellog. You should report those.
 
-### TCP
+## TCP
 
 To enable TCP you just need to pass the option `--tcp-port` and it will starting listening messages on that port.
 
-#### TCP API
-
-### Websocket
+## Websocket
 
 To enable the Websocket protocol you just need to pass the option `--websocket-port` and it will starting listening messages on that port.
-
-#### Websockets API
