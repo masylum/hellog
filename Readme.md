@@ -22,6 +22,16 @@ To start hellog just run
 hellog [options] log-path
 ```
 
+    Options
+      * --interval [100]: How frequent should we poll the file to see updates in ms.
+      * --timeout [Infinity]: For how long do we want to wait until new changes go in
+      * --http-port:
+      * --http-password:
+      * --tcp-port:
+      * --tcp-password:
+      * --websockets-port:
+      * --websockets-password:
+
 ## Core API
 
 Hellog contains a core API that is used by the protocol implementations.
