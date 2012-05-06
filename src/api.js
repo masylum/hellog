@@ -53,35 +53,29 @@ function API(config) {
     // if (options.grep) {
     // }
 
-    function onOpen() {
+    function createStream() {
+      fs_stream = require('growing-file').open(config.log_path, {
+        timeout: config.timeout || Infinity
+      , interval: config.interval || 100
+      });
       callback(null, fs_stream);
     }
 
-    function onError(error) {
-      callback(error);
-    }
-
-    function createStream() {
-      fs_stream = fs.createReadStream(config.log_path);
-      fs_stream.on('open', onOpen);
-      fs_stream.on('error', onError);
-    }
-
     function touchFile() {
-      fs.writeFile(config.log_path, '', function (err) {
-        if (err) {
-          return onError(err);
+      fs.writeFile(config.log_path, '', function (error) {
+        if (error) {
+          return callback(error);
         }
         createStream();
       });
     }
 
-    fs.stat(config.log_path, function (err, stats) {
-      if (err) {
-        if (err.code === 'ENOENT') {
+    fs.stat(config.log_path, function (error, stats) {
+      if (error) {
+        if (error.code === 'ENOENT') {
           touchFile();
         } else {
-          onError(err);
+          callback(error);
         }
       } else {
         createStream();

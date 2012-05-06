@@ -51,6 +51,8 @@ Appends a message to the log
 Streams the contents of the log
 
     Options:
+      - interval [100]: How frequent should we poll the file to see updates in ms.
+      - timeout [Infinity]: For how long do we want to wait until new changes go in
       - tail: Starts from the bottom
       - count: Number of records to stream
       - grep: Terms to filter the logs
