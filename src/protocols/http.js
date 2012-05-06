@@ -107,10 +107,6 @@ function HTTP(program) {
 
       res.writeHead(200, {'Content-Type': 'application/json'});
 
-      stream.on('data', function () {
-        console.log('data');
-      });
-
       stream.pipe(res, {end: false});
     });
   }
